@@ -3,6 +3,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Feathersoft.XRI.Whiteboard
 {
+    [RequireComponent(typeof(XRGrabInteractable))]
     public class MarkerInteractable : MonoBehaviour
     {
         public Color markerColor;

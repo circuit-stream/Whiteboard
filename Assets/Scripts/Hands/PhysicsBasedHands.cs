@@ -1,4 +1,3 @@
-using Feathersoft.Tools;
 using UnityEngine;
 
 namespace Feathersoft.XRI.Hands
@@ -7,10 +6,7 @@ namespace Feathersoft.XRI.Hands
     public class PhysicsBasedHands : MonoBehaviour
     {
         public Transform handTarget;
-        public float velocityMultiplier = 100;
-
-        [SerializeField]
-        private bool usePhysicsRotation;
+        public float velocityMultiplier = 500;
 
         private Transform _cachedTransform;
         private Rigidbody _handModelRigidbody;
@@ -19,9 +15,8 @@ namespace Feathersoft.XRI.Hands
         {
             _handModelRigidbody = GetComponent<Rigidbody>();
             _cachedTransform = transform;
-
-            if (!usePhysicsRotation)
-                _handModelRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            _handModelRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            _handModelRigidbody.useGravity = false;
         }
 
         private void FixedUpdate()
@@ -29,15 +24,7 @@ namespace Feathersoft.XRI.Hands
             float deltaTime = Time.deltaTime;
             Vector3 directionToTarget = handTarget.position - _cachedTransform.position;
             _handModelRigidbody.velocity = directionToTarget * velocityMultiplier * deltaTime;
-
-            if (usePhysicsRotation)
-            {
-                Quaternion rotationToTarget = _cachedTransform.ToPose().ToLocalRotation(handTarget.ToPose());
-                rotationToTarget.ToAngleAxis(out _, out Vector3 axis);
-                _handModelRigidbody.angularVelocity = axis * velocityMultiplier * deltaTime;
-            }
-            else
-                _cachedTransform.rotation = handTarget.rotation;
+            _cachedTransform.rotation = handTarget.rotation;
         }
     }
 }

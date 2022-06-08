@@ -8,9 +8,9 @@ namespace Feathersoft.XRI.Whiteboard
         [SerializeField]
         public Material _targetMat;
         [SerializeField]
-        private int _textureYResolution;
+        private int _textureHeightResolution = 1280;
         [SerializeField]
-        private TextureFormat _textureFormat;
+        private TextureFormat _textureFormat = TextureFormat.RGBA32;
 
         private Texture2D _drawingTexture;
         private Vector2Int _pixelSize;
@@ -28,7 +28,7 @@ namespace Feathersoft.XRI.Whiteboard
                 _cachedTransform.rotation * bounds.size);
 
             float colliderAspectRatio = _colliderBounds.size.x / _colliderBounds.size.y;
-            _pixelSize = new Vector2Int((int)(_textureYResolution * colliderAspectRatio), _textureYResolution);
+            _pixelSize = new Vector2Int((int)(_textureHeightResolution * colliderAspectRatio), _textureHeightResolution);
 
             _drawingTexture = new Texture2D(_pixelSize.x, _pixelSize.y, _textureFormat, false);
             _targetMat.SetTexture("_BaseMap", _drawingTexture);
